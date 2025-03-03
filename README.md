@@ -12,3 +12,4 @@
 9. 편의점 controller
 10. 시스템 메세지 enum
 11. 에러 메세지 enum
+12. resource를 읽고 상품 등록하는 service
