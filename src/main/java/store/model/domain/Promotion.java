@@ -1,13 +1,12 @@
-package store.model;
+package store.model.domain;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import store.utility.ErrorMessage;
 import store.utility.Parser;
-import store.utility.Validator;
 
 public class Promotion {
     private static final int MOST_GET_NUM = 5, LEAST_GET_NUM = 1;
@@ -16,8 +15,8 @@ public class Promotion {
     private final String name;
     private final int buy;
     private final int get;
-    private final LocalDate start_date;
-    private final LocalDate end_date;
+    private final LocalDateTime start_date;
+    private final LocalDateTime end_date;
 
     private Promotion(Builder builder) {
         this.name = builder.name;
@@ -39,7 +38,7 @@ public class Promotion {
         return get;
     }
 
-    public boolean isDatePromotionPeriod(LocalDate date) {
+    public boolean isDatePromotionPeriod(LocalDateTime date) {
         return start_date.isBefore(date)&&end_date.isAfter(date);
     }
 
@@ -61,16 +60,15 @@ public class Promotion {
         BUYNGET1(1, 1),
         BUYNGETN(LEAST_GET_NUM, MOST_GET_NUM);
 
-        private final int startGetNumber;
-        private final int endGetNumber;
+        private final int minGet, maxGet;
 
         Rule(int startGetNumber, int endGetNumber){
-            this.startGetNumber = startGetNumber;
-            this.endGetNumber = endGetNumber;
+            this.minGet = startGetNumber;
+            this.maxGet = endGetNumber;
         }
 
         public boolean matches(int getNumber) {
-            return this.startGetNumber<=getNumber && getNumber<=this.endGetNumber;
+            return this.minGet <=getNumber && getNumber<=this.maxGet;
         }
     };
 
@@ -78,8 +76,8 @@ public class Promotion {
         private String name;
         private int buy;
         private int get;
-        private LocalDate start_date;
-        private LocalDate end_date;
+        private LocalDateTime start_date;
+        private LocalDateTime end_date;
 
         public static Function<List<String>, Builder> createBuilderByColumns(List<String> columns){
             return (List<String> values)->{
@@ -141,7 +139,7 @@ public class Promotion {
                 this.end_date = Parser.DateParse(input);
                 return this;
             } catch (Exception e) {
-                throw new IllegalArgumentException(errorHeader + ErrorMessage.INPUT_NOT_DATE.getMessage());
+                throw new IllegalArgumentException(errorHeader + String.format(ErrorMessage.INPUT_NOT_FORMAT.getMessage(),"날짜"));
             }
         }
 
