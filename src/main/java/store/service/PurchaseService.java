@@ -18,9 +18,9 @@ public class PurchaseService {
         this.repositoryService = repositoryService;
     }
 
-    public void confirmPurchaseToReceipt(String userKey, Stock promotionStock, Stock normalStock){
+    public void confirmPurchaseToReceipt(String userKey, Stock promotionStock, Stock totalStock){
         User user = userService.retrieveUser(userKey);
-        user.accessReceipt().addPurchasedStock(normalStock);
+        user.accessReceipt().addPurchasedStock(totalStock);
         user.accessReceipt().addPromotionStock(promotionStock);
     }
 

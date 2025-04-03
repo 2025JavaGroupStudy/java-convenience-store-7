@@ -18,19 +18,27 @@ public class StockRepository implements RepositoryProvider {
     }
 
     @Override
+    @Description("First value : Promotion stock\nSecond Value : Normal Stock")
+    public Pair<Stock,Stock> isItem(String name){
+        return stockRepository.get(name);
+    }
+
+    @Override
     public void addItem(Object item){
         Stock stock = (Stock)item;
         String productName = stock.getProductName();
-        Pair<Stock, Stock> repositoryValue = stockRepository.get(productName);
+        Pair<Stock, Stock> repositoryValue = isItem(productName);
         if(stockRepository.replace(productName, changedStockField(repositoryValue, stock))==null){
             stockRepository.put(productName, changedStockField(repositoryValue, stock));
         }
     }
 
-    @Override
-    @Description("First value : Promotion stock\nSecond Value : Normal Stock")
-    public Pair<Stock,Stock> isItem(String name){
-        return stockRepository.get(name);
+    public void deductItem(String productName, int promotionStockDelta,int normalStockDelta){
+        Pair<Stock, Stock> repositoryValue = isItem(productName);
+        Stock first = repositoryValue.getFirst();
+        Stock second = repositoryValue.getSecond();
+        if(first!=null) first.deltaQuantity(-1 * promotionStockDelta);
+        if(second!=null) second.deltaQuantity(-1*normalStockDelta);
     }
 
     public List<String> allEntriesToString() {

@@ -1,6 +1,7 @@
 package store.service;
 
 import java.util.List;
+import store.model.domain.Stock;
 import store.model.repository.ProductRepository;
 import store.model.repository.PromotionRepository;
 import store.model.repository.interfaces.RepositoryProvider;
@@ -55,6 +56,11 @@ public class RepositoryService {
     public List<String> getCurrentStockStringList(){
         StockRepository repository = (StockRepository) stockRepository;
         return repository.allEntriesToString();
+    }
+
+    public void deductStock(String productName, int promotionStockDelta,int normalStockDelta){
+        StockRepository repository = (StockRepository) stockRepository;
+        repository.deductItem(productName, promotionStockDelta, normalStockDelta);
     }
 
     public String getPromotionRepository() {
