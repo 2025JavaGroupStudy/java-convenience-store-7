@@ -1,7 +1,5 @@
 package store.utility;
 
-import camp.nextstep.edu.missionutils.DateTimes;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public final class SystemConstantVariable {

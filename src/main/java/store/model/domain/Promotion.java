@@ -1,6 +1,5 @@
 package store.model.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
@@ -70,7 +69,7 @@ public class Promotion {
         public boolean matches(int getNumber) {
             return this.minGet <=getNumber && getNumber<=this.maxGet;
         }
-    };
+    }
 
     public static class Builder{
         private String name;

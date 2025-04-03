@@ -1,12 +1,7 @@
 package store.model.domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import store.model.domain.Membership.Type;
 import store.utility.ErrorMessage;
-import store.utility.Pair;
 
 public class User {
     Receipt receipt;

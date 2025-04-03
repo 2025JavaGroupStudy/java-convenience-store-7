@@ -111,7 +111,7 @@ public class StoreController {
     private void purchaseEachItem(String userKey, String[] splittedInput){
         for(int i=0; i<splittedInput.length/2; i++){
             int customerQuantity = Parser.NumberParse(splittedInput[i*2+1]);
-            CheckPromotionDTO result = purchaseService.checkPromotionForCustomerInput(userKey, splittedInput[i*2], customerQuantity);
+            CheckPromotionDTO result = purchaseService.checkPromotionForCustomerInput(splittedInput[i*2], customerQuantity);
             result = readAccordingToCheckPromotionDTO(result, customerQuantity);
             purchaseService.confirmPurchaseToReceipt(userKey,
                     Stock.createStore(result.getProduct(), result.getPromotion(), result.getPromotionQuantity()),

@@ -29,7 +29,7 @@ public class PurchaseService {
     }
 
     //이건 조건을 다 뺴지 않는 이상 줄이기가 안되드라구요...쩔수없이 이거대로 하기로
-    public CheckPromotionDTO checkPromotionForCustomerInput(String userKey, String productName, int customerQuantity){
+    public CheckPromotionDTO checkPromotionForCustomerInput(String productName, int customerQuantity){
         Pair<Stock, Stock> stocks = (Pair<Stock, Stock>) repositoryService.isItem(isItemType.STOCK, productName);
         if(stocks == null) throw new IllegalArgumentException(String.format(ErrorMessage.RESOURCE_NO_SUCH_INSTANCE.getMessage(), productName));
 

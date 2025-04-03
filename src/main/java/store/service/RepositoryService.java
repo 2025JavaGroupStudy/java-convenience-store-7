@@ -1,7 +1,6 @@
 package store.service;
 
 import java.util.List;
-import store.model.domain.Stock;
 import store.model.repository.ProductRepository;
 import store.model.repository.PromotionRepository;
 import store.model.repository.interfaces.RepositoryProvider;
@@ -36,11 +35,11 @@ public class RepositoryService {
         if(type == AddItemType.PROMOTION) promotionRepository.addItem(key, item);
         if(type == AddItemType.PRODUCT) productRepository.addItem(key, item);
         //if(type == Type.STOCK) : 현재는 사용되지 않으므로 주석처리함
-    };
+    }
 
     void addItem(Object item){
         stockRepository.addItem(item);
-    };
+    }
 
     Object isItem(isItemType type, String name){
         if(type == isItemType.PROMOTION) return promotionRepository.isItem(name);
@@ -63,7 +62,8 @@ public class RepositoryService {
         repository.deductItem(productName, promotionStockDelta, normalStockDelta);
     }
 
-    public String getPromotionRepository() {
-        return promotionRepository.toString();
-    }
+    //디버깅용으로 만들어뒀던 메서드
+//    public String getPromotionRepository() {
+//        return promotionRepository.toString();
+//    }
 }

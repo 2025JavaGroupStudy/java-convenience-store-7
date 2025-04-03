@@ -3,7 +3,6 @@ package store.model.dto;
 import store.model.domain.Product;
 import store.model.domain.Promotion;
 import store.model.domain.Stock;
-import store.utility.Pair;
 
 public class CheckPromotionDTO {
     boolean isPurchasable;

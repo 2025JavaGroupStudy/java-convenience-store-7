@@ -59,8 +59,8 @@ public class AppConfig {
         }
 
         static class SingleVariable<T> implements Injectable {
-            private Consumer<T> setter;
-            private Refresh func;
+            private final Consumer<T> setter;
+            private final Refresh func;
             public SingleVariable(Consumer<T> setter, Refresh func){
                 this.setter = setter;
                 this.func = func;

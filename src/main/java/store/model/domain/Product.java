@@ -1,7 +1,6 @@
 package store.model.domain;
 
 import java.lang.reflect.Field;
-import java.util.Comparator;
 import java.util.List;
 import store.utility.ErrorMessage;
 import store.utility.Parser;

@@ -1,10 +1,7 @@
 package store.view.provider;
 
-import static store.utility.SystemConstantVariable.INPUT_EXAMPLES;
-
 import camp.nextstep.edu.missionutils.Console;
 import store.utility.InputFormatter;
-import store.utility.SystemMessage;
 import store.view.provider.interfaces.InputProvider;
 
 public class DefaultInputProvider implements InputProvider {
