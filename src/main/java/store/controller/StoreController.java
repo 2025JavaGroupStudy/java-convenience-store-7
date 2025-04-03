@@ -57,7 +57,6 @@ public class StoreController {
             String inputLine = inputView.readPurchaseItems();
             String[] splittedInput = InputFormatter.isStockFormat(inputLine);
             purchaseEachItem(userKey, splittedInput);
-            outputView.printError("purchasing item executed");
             return false;
         }catch (Exception e){
             outputView.printError(ErrorMessage.errorHeader +  e.getMessage());
