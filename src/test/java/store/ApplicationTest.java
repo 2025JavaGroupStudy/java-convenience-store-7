@@ -4,16 +4,24 @@ import camp.nextstep.edu.missionutils.test.NsTest;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import store.Application.Breakpoint;
+import store.controller.StoreController;
+import store.view.InputView;
+import store.view.provider.TestInputProvider;
 
 import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest extends NsTest {
+    AppConfig appConfig = new AppConfig();
     @Test
     void 파일에_있는_상품_목록_출력() {
-        assertSimpleTest(() -> {
-            run("[물-1]", "N", "N");
+        assertNowTest(() -> {
+            String[] YorN = new String[]{"N","N"};
+            InputView mockInputView = InputView.createByProvider(new TestInputProvider("[물-1]", YorN));
+            appConfig.mock.InputView.inject(mockInputView);
+            runTest(Breakpoint.PRODUCT_GUIDE);
             assertThat(output()).contains(
                 "- 콜라 1,000원 10개 탄산2+1",
                 "- 콜라 1,000원 10개",
@@ -34,13 +42,16 @@ class ApplicationTest extends NsTest {
                 "- 컵라면 1,700원 1개 MD추천상품",
                 "- 컵라면 1,700원 10개"
             );
-        });
+        },LocalDate.of(2024, 11, 2).atStartOfDay());
     }
 
     @Test
     void 여러_개의_일반_상품_구매() {
         assertSimpleTest(() -> {
-            run("[비타민워터-3],[물-2],[정식도시락-2]", "N", "N");
+            String[] YorN = new String[]{"N","N"};
+            InputView mockInputView = InputView.createByProvider(new TestInputProvider("[비타민워터-3],[물-2],[정식도시락-2]", YorN));
+            appConfig.mock.InputView.inject(mockInputView);
+            runTest(Breakpoint.NONE);
             assertThat(output().replaceAll("\\s", "")).contains("내실돈18,300");
         });
     }
@@ -48,7 +59,10 @@ class ApplicationTest extends NsTest {
     @Test
     void 기간에_해당하지_않는_프로모션_적용() {
         assertNowTest(() -> {
-            run("[감자칩-2]", "N", "N");
+            String[] YorN = new String[]{"N","N"};
+            InputView mockInputView = InputView.createByProvider(new TestInputProvider("[감자칩-2]", YorN));
+            appConfig.mock.InputView.inject(mockInputView);
+            runTest(Breakpoint.NONE);
             assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
         }, LocalDate.of(2024, 2, 1).atStartOfDay());
     }
@@ -56,13 +70,20 @@ class ApplicationTest extends NsTest {
     @Test
     void 예외_테스트() {
         assertSimpleTest(() -> {
-            runException("[컵라면-12]", "N", "N");
-            assertThat(output()).contains("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+            String[] YorN = new String[]{"N","N"};
+            InputView mockInputView = InputView.createByProvider(new TestInputProvider("[컵라면-12]", YorN));
+            appConfig.mock.InputView.inject(mockInputView);
+            runTest(Breakpoint.FIRST_PURCHASE_ATTEMPT);
+            assertThat(output()).contains("[ERROR] 입력한 상품 개수 12개는 재고를 초과해 구매할 수 없습니다.");
         });
     }
 
     @Override
     public void runMain() {
         Application.main(new String[]{});
+    }
+
+    private void runTest(Breakpoint breakpoint){
+        new Application().testRun(appConfig, breakpoint);
     }
 }
